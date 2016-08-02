@@ -31,23 +31,23 @@ def openvpn_wrapper():
       if not config[entry]:
         raise RuntimeError('Missing config data: %s' % entry)
     # print "In Parent Process: PID# %s" % os.getpid()
-    print os.read(fd, 1000)
+    print os.read(fd, 1000),
     otp_gen = totp.TOTP(s=config['google_secret'])
     try:
       os.write(fd,config['username']+'\n')
-      print os.read(fd, 1000)
+      print os.read(fd, 1000),
       time.sleep(2)
       os.write(fd,config['password']+'\n')
-      print os.read(fd, 1000)
+      print os.read(fd, 1000),
       time.sleep(2)
       otp_code = otp_gen.now()
       os.write(fd,str(otp_code)+'\n')
-      print os.read(fd, 1000)
+      print os.read(fd, 1000),
       time.sleep(2)
     except KeyError as e:
       raise KeyError("Missing config parameter! %s"%e.message)
     while True:
-      print os.read(fd, 10000)
+      print os.read(fd, 10000),
 
 
 if __name__ == "__main__":
